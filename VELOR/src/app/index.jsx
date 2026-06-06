@@ -27,7 +27,7 @@ export default function App() {
           <Text
             style={[
               styles.velor ]}>
-            VELOR
+            VÉLOR
           </Text>
 
           <View style={styles.accentLine} />
