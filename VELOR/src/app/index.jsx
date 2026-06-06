@@ -1,12 +1,10 @@
 import React from 'react';
-import {View,
-Text, StyleSheet, ImageBackground, TouchableOpacity,} from 'react-native';
-import Nav from './Nav';
+import {View, Text, StyleSheet, ImageBackground, TouchableOpacity,} from 'react-native';
+import Nav from './Newnav';
+import { Link } from 'expo-router';
 
 export default function App() {
 
-
-  
   return (
     <ImageBackground
       source={require('./images/home.png')}
@@ -22,16 +20,13 @@ export default function App() {
 
           <Text
             style={[
-              styles.welkom,]}>
+              styles.welkom]}>
             WELKOM BIJ
           </Text>
 
           <Text
             style={[
-              styles.velor,
-
-            ]}
-          >
+              styles.velor ]}>
             VELOR
           </Text>
 
@@ -43,7 +38,9 @@ export default function App() {
           </Text>
 
           <TouchableOpacity activeOpacity={0.85} style={styles.button}>
-            <Text style={styles.buttonText}>RESERVEER EEN TAFEL</Text>
+            <Link style={styles.buttonText} 
+              href="/Reserve"
+            >RESERVEER EEN TAFEL</Link>
           </TouchableOpacity>
         </View>
       </View>
