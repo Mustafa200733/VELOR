@@ -1,34 +1,33 @@
-import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, TouchableOpacity,} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, TextInput,} from 'react-native';
+
 import Nav from './Newnav';
 import { Link } from 'expo-router';
 
 export default function App() {
+  const [searchInput, setSearchInput] = useState('');
+
+  const gerechten = ['Carpaccio', 'Tomatensoep', 'Bruschetta', 'Garnalencocktail', 'Geitenkaassalade', 'Steak Deluxe', 'Gegrilde Zalm', 'Pasta Alfredo', 'Truffelrisotto', 'Kip Supreme', 'Tiramisu', 'Cheesecake', 'Lava Cake', 'Crème Brûlée', 'Vanille-ijs', 'Espresso', 'Cappuccino', 'Latte Macchiato', 'Chocolademelk'];
+
+  const resultaten = gerechten.filter(item =>
+    item.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <ImageBackground
       source={require('./images/home.png')}
       style={styles.backgroundImage}
-      resizeMode="cover">
+      resizeMode="cover"
+    >
       <View style={styles.overlay}>
         <Nav />
 
-        <View
-          style={[
-            styles.heroContent]}>
+        <View style={styles.heroContent}>
           <Text style={styles.eyebrow}>Restaurant & Lounge</Text>
 
-          <Text
-            style={[
-              styles.welkom]}>
-            WELKOM BIJ
-          </Text>
+          <Text style={styles.welkom}>WELKOM BIJ</Text>
 
-          <Text
-            style={[
-              styles.velor ]}>
-            VÉLOR
-          </Text>
+          <Text style={styles.velor}>VÉLOR</Text>
 
           <View style={styles.accentLine} />
 
@@ -37,11 +36,27 @@ export default function App() {
             sfeer en vakmanschap samenkomen.
           </Text>
 
-          <TouchableOpacity activeOpacity={0.85} style={styles.button}>
-            <Link style={styles.buttonText} 
-              href="/Reserve"
-            >RESERVEER EEN TAFEL</Link>
-          </TouchableOpacity>
+          {/* SEARCH */}
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Zoek een gerecht..."
+              placeholderTextColor="#888"
+              value={searchInput}
+              onChangeText={setSearchInput}
+            />
+
+            {searchInput.length > 0 && (
+              <View style={styles.resultsContainer}>
+                {resultaten.map((item, index) => (
+                  <Text key={index} style={styles.resultItem}>
+                    {item}
+                  </Text>
+                ))}
+              </View>
+            )}
+          </View>
+
         </View>
       </View>
     </ImageBackground>
@@ -67,12 +82,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 760,
     paddingHorizontal: 88,
-    paddingBottom: 54,
-  },
-
-  heroContentSmall: {
-    paddingHorizontal: 28,
-    paddingBottom: 34,
   },
 
   eyebrow: {
@@ -85,37 +94,21 @@ const styles = StyleSheet.create({
   },
 
   welkom: {
-    color: '#FFFFFF',
+    color: '#fff',
     fontSize: 58,
     fontWeight: '800',
-    lineHeight: 64,
-    letterSpacing: 0,
-    textTransform: 'uppercase',
-  },
-
-  welkomSmall: {
-    fontSize: 38,
-    lineHeight: 44,
   },
 
   velor: {
     color: '#D9B650',
     fontSize: 86,
     fontWeight: '900',
-    lineHeight: 92,
-    letterSpacing: 0,
-  },
-
-  velorSmall: {
-    fontSize: 56,
-    lineHeight: 62,
   },
 
   accentLine: {
     width: 96,
     height: 3,
     backgroundColor: '#D4AF37',
-    borderRadius: 999,
     marginTop: 18,
   },
 
@@ -125,32 +118,52 @@ const styles = StyleSheet.create({
     lineHeight: 31,
     marginTop: 24,
     maxWidth: 550,
-    fontWeight: '400',
+  },
+
+  /* SEARCH FIX (BELANGRIJK) */
+  searchContainer: {
+    marginTop: 30,
+    width: 420,
+    position: 'relative',
+  },
+
+  searchInput: {
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#D4AF37',
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+    fontSize: 16,
+  },
+
+  resultsContainer: {
+    position: 'absolute',
+    top: 58,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    zIndex: 999,
+    elevation: 10,
+  },
+
+  resultItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
 
   button: {
-    marginTop: 38,
+    marginTop: 30,
     backgroundColor: '#D4AF37',
     paddingVertical: 17,
     paddingHorizontal: 34,
     borderRadius: 4,
-    alignSelf: 'flex-start',
-    borderWidth: 1,
-    borderColor: '#F1D77B',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 18,
-    elevation: 8,
   },
 
   buttonText: {
-    color: '#111111',
-    fontSize: 14,
+    color: '#111',
     fontWeight: '800',
-    letterSpacing: 1,
   },
 });
