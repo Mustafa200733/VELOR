@@ -1,17 +1,68 @@
 import React, { useState } from 'react';
-import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, TextInput,} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 
 import Nav from './Newnav';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 
 export default function App() {
   const [searchInput, setSearchInput] = useState('');
 
-  const gerechten = ['Carpaccio', 'Tomatensoep', 'Bruschetta', 'Garnalencocktail', 'Geitenkaassalade', 'Steak Deluxe', 'Gegrilde Zalm', 'Pasta Alfredo', 'Truffelrisotto', 'Kip Supreme', 'Tiramisu', 'Cheesecake', 'Lava Cake', 'Crème Brûlée', 'Vanille-ijs', 'Espresso', 'Cappuccino', 'Latte Macchiato', 'Chocolademelk'];
+  const gerechten = [
+    'Carpaccio',
+    'Tomatensoep',
+    'Bruschetta',
+    'Garnalencocktail',
+    'Geitenkaassalade',
+    'Steak Deluxe',
+    'Gegrilde Zalm',
+    'Pasta Alfredo',
+    'Truffelrisotto',
+    'Kip Supreme',
+    'Tiramisu',
+    'Cheesecake',
+    'Lava Cake',
+    'Crème Brûlée',
+    'Vanille-ijs',
+    'Espresso',
+    'Cappuccino',
+    'Latte Macchiato',
+    'Chocolademelk',
+  ];
 
   const resultaten = gerechten.filter(item =>
     item.toLowerCase().includes(searchInput.toLowerCase())
   );
+
+  const handleSelect = (gerecht) => {
+    const routes = {
+      Carpaccio: '/Carpaccio',
+      Tomatensoep: '/Tomatensoep',
+      Bruschetta: '/Bruschetta',
+      Garnalencocktail: '/Garnalencocktail',
+      Geitenkaassalade: '/Geitenkaassalade',
+      'SteakDeluxe': '/SteakDeluxe',
+      'Gegrilde Zalm': '/GegrildeZalm',
+      'Pasta Alfredo': '/PastaAlfredo',
+      Truffelrisotto: '/Truffelrisotto',
+      'Kip Supreme': '/KipSupreme',
+      Tiramisu: '/Tiramisu',
+      Cheesecake: '/Cheesecake',
+      'Lava Cake': '/LavaCake',
+      'Crème Brûlée': '/Creme',
+      'Vanille-ijs': '/VanilleIjs',
+    };
+
+    if (routes[gerecht]) {
+      router.push(routes[gerecht]);
+    }
+  };
 
   return (
     <ImageBackground
@@ -36,7 +87,6 @@ export default function App() {
             sfeer en vakmanschap samenkomen.
           </Text>
 
-          {/* SEARCH */}
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
@@ -49,14 +99,18 @@ export default function App() {
             {searchInput.length > 0 && (
               <View style={styles.resultsContainer}>
                 {resultaten.map((item, index) => (
-                  <Text key={index} style={styles.resultItem}>
-                    {item}
-                  </Text>
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleSelect(item)}
+                  >
+                    <Text style={styles.resultItem}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
                 ))}
               </View>
             )}
           </View>
-
         </View>
       </View>
     </ImageBackground>
@@ -120,7 +174,6 @@ const styles = StyleSheet.create({
     maxWidth: 550,
   },
 
-  /* SEARCH FIX (BELANGRIJK) */
   searchContainer: {
     marginTop: 30,
     width: 420,
@@ -152,18 +205,6 @@ const styles = StyleSheet.create({
     padding: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
-  },
-
-  button: {
-    marginTop: 30,
-    backgroundColor: '#D4AF37',
-    paddingVertical: 17,
-    paddingHorizontal: 34,
-    borderRadius: 4,
-  },
-
-  buttonText: {
-    color: '#111',
-    fontWeight: '800',
+    fontSize: 16,
   },
 });
