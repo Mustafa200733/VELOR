@@ -18,7 +18,7 @@ export default function Bruschetta() {
 </Text>
 
 <Text style={styles.price}>
-  €10,50
+  €8,00
 </Text>
 
 <Text style={styles.chefTitle}>

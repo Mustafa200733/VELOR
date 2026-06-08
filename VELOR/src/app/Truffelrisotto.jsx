@@ -18,7 +18,7 @@ export default function Truffelrisotto() {
       </Text>
 
       <Text style={styles.price}>
-        €24,50
+€21,00
       </Text>
 
       <Text style={styles.chefTitle}>
