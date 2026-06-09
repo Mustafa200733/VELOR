@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 10,
   },
-});
+});q

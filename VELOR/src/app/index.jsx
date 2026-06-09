@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+
+import React, { useState } from 'react';
 
 import Nav from './Newnav';
 import { router } from 'expo-router';
@@ -36,32 +37,45 @@ export default function App() {
     'Chocolademelk',
   ];
 
-  const resultaten = gerechten.filter(item =>
-    item.toLowerCase().includes(searchInput.toLowerCase())
+  const normalize = (text) =>
+    text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+  const routes = {
+    carpaccio: '/Carpaccio',
+    tomatensoep: '/Tomatensoep',
+    bruschetta: '/Bruschetta',
+    garnalencocktail: '/Naal',
+    geitenkaassalade: '/Geitenkaassalade',
+    'steak deluxe': '/SteakDeluxe',
+    'gegrilde zalm': '/GegrildeZalm',
+    'pasta alfredo': '/PastaAlfredo',
+    truffelrisotto: '/Truffelrisotto',
+    'kip supreme': '/KipSupreme',
+    tiramisu: '/Tiramisu',
+    cheesecake: '/Cheesecake',
+    'lava cake': '/Lava',
+    'creme brulee': '/Creme',
+    'vanille-ijs': '/VanilleIjs',
+  };
+
+  const resultaten = gerechten.filter((item) =>
+    normalize(item).includes(normalize(searchInput))
   );
 
   const handleSelect = (gerecht) => {
-    const routes = {
-      Carpaccio: '/Carpaccio',
-      Tomatensoep: '/Tomatensoep',
-      Bruschetta: '/Bruschetta',
-      Garnalencocktail: '/Naal',
-      Geitenkaassalade: '/Geitenkaassalade',
-      'Steak Deluxe': '/SteakDeluxe',
-      'Gegrilde Zalm': '/GegrildeZalm',
-      'Pasta Alfredo': '/PastaAlfredo',
-      Truffelrisotto: '/Truffelrisotto',
-      'Kip Supreme': '/KipSupreme',
-      Tiramisu: '/Tiramisu',
-      Cheesecake: '/Cheesecake',
-      'Lava Cake': '/Lava',
-      'Crème Brûlée': '/Creme',
-      'Vanille-ijs': '/VanilleIjs',
-    };
+    const key = normalize(gerecht);
+    const route = routes[key];
 
-    if (routes[gerecht]) {
-      router.push(routes[gerecht]);
+    if (!route) {
+      console.log('⚠️ Geen route gevonden voor:', gerecht);
+      return;
     }
+
+    setSearchInput('');
+    router.push(route);
   };
 
   return (
@@ -98,14 +112,12 @@ export default function App() {
 
             {searchInput.length > 0 && (
               <View style={styles.resultsContainer}>
-                {resultaten.map((item, index) => (
+                {resultaten.map((item) => (
                   <TouchableOpacity
-                    key={index}
+                    key={item}
                     onPress={() => handleSelect(item)}
                   >
-                    <Text style={styles.resultItem}>
-                      {item}
-                    </Text>
+                    <Text style={styles.resultItem}>{item}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -199,6 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     zIndex: 999,
     elevation: 10,
+    maxHeight: 220,
   },
 
   resultItem: {
