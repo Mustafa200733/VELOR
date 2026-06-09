@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "VELOR",
+    "slug": "velor",
+    "version": "1.0.0",
+    "scheme": "velor",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "web": {
+      "bundler": "metro"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
